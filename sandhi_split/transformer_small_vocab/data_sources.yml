@@ -1,0 +1,8 @@
+# All data sources are processed using sentence piece
+data:
+  train_features_file: data/input_train_sp.txt 
+  train_labels_file: data/output_train_sp.txt
+  eval_features_file: data/input_test_sp.txt
+  eval_labels_file: data/output_test_sp.txt
+  source_words_vocabulary: data/sandhi_split_sp.vocab
+  target_words_vocabulary: data/sandhi_split_sp.vocab
