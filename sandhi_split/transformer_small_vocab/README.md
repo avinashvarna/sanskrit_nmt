@@ -77,26 +77,29 @@ You should see something like the following if the server started successfully:
 ```
 
 ### Run the client with the test data
-* `./scripts/run_client.sh` will run the client on the test data and store the tokenized output in `data/serving_sp.txt`
+* `./scripts/run_client.sh data/test.txt data/serving_test.txt` will run the client on the first 10 sentences in the test data and store the tokenized output in `data/serving_test.txt`
+* To evaluate all the test data, run `./scripts/run_client.sh data/input_test.txt data/serving_10000.txt`
 
-### Detokenize the output using sentencepiece 
-```
-spm_decode --model data/sandhi_split.model --input_format=piece < data/avg_10000_sp.txt. > data/avg_10000.txt
-```
 
 ### Evaluate the split accuracy
 For example with [sacrebleu](https://raw.githubusercontent.com/awslabs/sockeye/master/contrib/sacrebleu/sacrebleu.py):
 ```
-$$ ./sacrebleu.py data/output_test.txt -m bleu chrf < data/avg_10000.txt
+$$ ./sacrebleu.py data/output_test.txt -m bleu chrf < data/serving_10000.txt
 BLEU+case.mixed+numrefs.1+smooth.exp+tok.13a+version.1.2.3 = 83.74 92.9/87.3/82.4/78.3 (BP = 0.985 ratio = 0.985 hyp_len = 32136 ref_len = 32638)
 chrF2+case.mixed+numchars.6+numrefs.1+space.False+tok.13a+version.1.2.3 = 0.96
 ```
 showing that the model output obtained a BLEU score of 83.74 and chrF = 0.96 with respect to the reference splits. 
 Note that these may not be the best metrics to use for this task, but are commonly used in NMT.
 
+### Interactively split a sentence
+`scripts/sandhi_split.sh` can be used to split a single input sentence on the command line. E.g.
+```
+./scripts/sandhi_split.sh "yasmAdAha"
+Input: yasmAdAha
+Split: yasmAt Aha
+```
+
 ## TODO
-* Implement a CLI version of `nmt_client.py` that can be used to interactively split a given input sentence. 
-Should be a fairly straightforward modification to add the tokenization and detokenization steps.
 * Explore if quantizing/pruning the weights can further reduce the exported model size.
 
 # LICENSE
