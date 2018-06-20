@@ -13,6 +13,18 @@ Training is fairly fast if you have a GPU. It took less
 than an hour to train the model for 10000 steps using a Google
 Compute Engine instance with one unit of an Nvidia K80 GPU.
 
+## Quickstart (a.k.a. TL;DR)
+* Install `tensorflow_serving`, `sentencepiece`, `grpcio`
+* Run `./scripts/start_tf_server.sh` to start tensorflow serving with the NN model
+* Use `scripts/sandhi_split.sh` to split a single input sentence on the command line. E.g.
+```
+./scripts/sandhi_split.sh "yasmAdAha"
+Input: yasmAdAha
+Split: yasmAt Aha
+```
+* To split all sentences in a file, run `./scripts/run_client.sh <input> <output>`
+
+
 ## Directory structure
 * `transformer_small.py` defines the model. 
 * `settings.yml` defines the settings for training and evaluating the model.
